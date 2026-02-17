@@ -1,0 +1,117 @@
+================================================================================
+HOW TO RUN YOUR LLM INVENTORY AGENT
+================================================================================
+
+Location: /home/paul/code/widget_sim1/simple_inventory
+
+================================================================================
+OPTION 1: QUICK TEST (EASIEST - START HERE)
+================================================================================
+
+Step 1: Open terminal and navigate:
+  cd /home/paul/code/widget_sim1/simple_inventory
+
+Step 2: Run a single inventory check:
+  ./venv/bin/python llm_inventory_agent.py --once
+
+That's it! The agent will:
+  - Read inventory from database
+  - Analyze with AI
+  - Show you the decision
+  - Execute restocking if needed
+
+Time: ~10-30 seconds
+Cost: ~$0.03 (GPT-4) or ~$0.005 (GPT-3.5)
+
+================================================================================
+OPTION 2: USE HELPER SCRIPTS
+================================================================================
+
+Even easier! Just run:
+  ./run_once.sh
+
+Or for cheaper/faster AI:
+  ./venv/bin/python llm_inventory_agent.py --once --model gpt-3.5-turbo
+
+================================================================================
+OPTION 3: RUN WITH SIMULATION (ADVANCED)
+================================================================================
+
+You need TWO terminal windows:
+
+Terminal 1 - Start Simulation:
+  cd /home/paul/code/widget_sim1/simple_inventory
+  ./start_simulation.sh
+
+Terminal 2 - Start Agent:
+  cd /home/paul/code/widget_sim1/simple_inventory
+  ./start_agent.sh
+
+The agent will monitor the simulation and make decisions automatically!
+
+Duration: ~30-60 seconds for 30-day simulation
+Cost: ~$0.10-0.50 depending on how many decisions
+
+================================================================================
+OPTION 4: TEST SETUP (NO API CALLS)
+================================================================================
+
+Want to verify everything works without spending money?
+  ./venv/bin/python test_agent.py
+
+This checks:
+  ✓ API key configured
+  ✓ Databases accessible
+  ✓ Can connect to OpenAI
+  ✓ LLM responds correctly
+
+================================================================================
+WHAT YOU'LL SEE
+================================================================================
+
+The agent prints:
+  🤖 Initialization info
+  📊 Inventory data summary
+  🧠 "Consulting LLM..." (this is where AI thinks)
+  💭 LLM's decision (RESTOCK or NO_ACTION)
+  📝 Reasoning (why the AI made this choice)
+  📋 Parts to restock with quantities
+  📦 Execution (database updates)
+  💰 Total cost
+  ✅ Success confirmation
+
+================================================================================
+TIPS
+================================================================================
+
+• First time? Use: ./run_once.sh
+• Want it cheap? Add: --model gpt-3.5-turbo
+• Want detailed output? Just run it - already verbose!
+• Something wrong? Run: ./venv/bin/python test_agent.py
+• Need help? Read: cat COMMANDS.md
+
+================================================================================
+FILES YOU HAVE
+================================================================================
+
+./run_once.sh              - Run single check (easiest!)
+./start_simulation.sh      - Start simulation (Terminal 1)
+./start_agent.sh          - Start agent (Terminal 2)
+./venv/bin/python         - Python with all dependencies
+llm_inventory_agent.py    - Main agent code
+test_agent.py             - Test suite
+COMMANDS.md               - Full command reference
+README.md                 - Complete documentation
+.env                      - Your API key (already configured)
+
+================================================================================
+READY TO TRY?
+================================================================================
+
+Run this now:
+  cd /home/paul/code/widget_sim1/simple_inventory && ./run_once.sh
+
+Or read full docs:
+  cat README.md
+
+================================================================================

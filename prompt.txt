@@ -1,0 +1,11 @@
+I want to build an AI agent using an LLM to monitor an inventory database and determine when the inventory for a part is low and should be reordered.  The agent should run once a day and read each of the parts and if it determines the part should be restocked it should determine how many to buy and update the ERP system with the order.  The LLM should make the decision.  
+
+Use openai LLM API interface.
+All databases are SQLite and stored in /home/paul/code/widget_sim1/widget-sim/databases
+Read file describing databases is here : /home/paul/code/widget_sim1/widget-sim/AGENT_DEVELOPER_GUIDE.md
+Read file describing how to sync with the simulation here: /home/paul/code/widget_sim1/widget-sim/AGENT_SYNC_GUIDE.md
+Read file describing agent integration here : /home/paul/code/widget_sim1/widget-sim/AGENT_INTEGRATION.md 
+
+
+
+
