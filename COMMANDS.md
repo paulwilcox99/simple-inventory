@@ -1,10 +1,12 @@
 # LLM Inventory Agent - Command Reference
 
+All commands below assume you are in the `simple-inventory/` directory.
+
 ## Quick Start Commands
 
 ### Test Your Setup
 ```bash
-cd /home/paul/code/widget_sim1/simple_inventory
+cd simple-inventory
 ./venv/bin/python test_agent.py
 ```
 
@@ -15,12 +17,19 @@ cd /home/paul/code/widget_sim1/simple_inventory
 
 ### Run with Simulation (Auto Mode)
 ```bash
-# Terminal 1:
-cd /home/paul/code/widget_sim1/widget-sim
-./venv/bin/python run_simulation.py 30 "2026-04-15" --disable restock
+# Terminal 1 — start the simulator (from simple-inventory/):
+./start_simulation.sh
 
-# Terminal 2:
-cd /home/paul/code/widget_sim1/simple_inventory
+# Terminal 2 — start the agent (from simple-inventory/):
+./start_agent.sh
+```
+
+Or manually:
+```bash
+# Terminal 1 (from widget-sim/):
+./venv/bin/python run_simulation.py 30 "2026-04-15" --disable restock --delay 5
+
+# Terminal 2 (from simple-inventory/):
 ./venv/bin/python llm_inventory_agent.py --simulation
 ```
 
@@ -72,12 +81,11 @@ cd /home/paul/code/widget_sim1/simple_inventory
 ## Check Results
 
 ```bash
-# View last simulation state
-cat /home/paul/code/widget_sim1/widget-sim/sim_state.json
+# View last simulation state (from widget-sim/)
+cat ../sim_state.json
 
-# Query inventory levels
-cd /home/paul/code/widget_sim1/widget-sim
-python3 -c "
+# Query inventory levels (from widget-sim/)
+../venv/bin/python3 -c "
 import sqlite3
 conn = sqlite3.connect('databases/inventory.db')
 cursor = conn.cursor()
@@ -97,11 +105,8 @@ grep OPENAI_API_KEY .env
 # Test databases
 ./venv/bin/python test_agent.py
 
-# View agent output
-tail -50 /tmp/claude-*/tasks/*.output
-
-# Reset databases (fresh start)
-cd /home/paul/code/widget_sim1/widget-sim
+# Reset databases (fresh start) — run from widget-sim/
+cd ..
 rm -rf databases/
 ./venv/bin/python create_sim.py
 ```

@@ -135,13 +135,11 @@ python llm_inventory_agent.py --once
 
 ### Mode 2: Simulation Integration
 ```bash
-# Terminal 1: Start simulation
-cd /home/paul/code/widget_sim1/widget-sim
-./venv/bin/python run_simulation.py 30 --disable restock --step
+# Terminal 1: Start simulation (from widget-sim/)
+./venv/bin/python run_simulation.py 30 --disable restock --delay 5
 
-# Terminal 2: Start agent
-cd /home/paul/code/widget_sim1/simple_inventory
-python llm_inventory_agent.py --simulation
+# Terminal 2: Start agent (from simple-inventory/)
+./venv/bin/python llm_inventory_agent.py --simulation
 ```
 - Agent monitors simulation state
 - Runs check each simulation day
@@ -379,7 +377,7 @@ Track these to evaluate agent:
 1. **Read Documentation**:
    - `QUICKSTART.md` - 5-minute setup
    - `README.md` - Complete documentation
-   - `/home/paul/code/widget_sim1/widget-sim/AGENT_DEVELOPER_GUIDE.md`
+   - `../AGENT_DEVELOPER_GUIDE.md` (in simulator root)
 
 2. **Run Tests**:
    ```bash
@@ -399,9 +397,8 @@ Track these to evaluate agent:
 ## Quick Start Recap
 
 ```bash
-# 1. Install
-cd /home/paul/code/widget_sim1/simple_inventory
-pip install -r requirements.txt
+# 1. Install (from simple-inventory/)
+./venv/bin/pip install -r requirements.txt
 
 # 2. Configure
 export OPENAI_API_KEY='sk-...'

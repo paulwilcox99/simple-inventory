@@ -2,14 +2,37 @@
 HOW TO RUN YOUR LLM INVENTORY AGENT
 ================================================================================
 
-Location: /home/paul/code/widget_sim1/simple_inventory
+Expected directory layout:
+  widget-sim/                  <- manufacturing simulator
+  ├── venv/
+  ├── databases/
+  ├── run_simulation.py
+  └── simple-inventory/        <- this agent (must be inside widget-sim/)
+      └── venv/
+
+================================================================================
+FIRST TIME SETUP
+================================================================================
+
+Step 1: Install simulator dependencies (from widget-sim/):
+  python3 -m venv venv
+  ./venv/bin/pip install -r requirements.txt
+  ./venv/bin/python create_sim.py
+
+Step 2: Install agent dependencies (from simple-inventory/):
+  python3 -m venv venv
+  ./venv/bin/pip install -r requirements.txt
+
+Step 3: Set your OpenAI API key (from simple-inventory/):
+  cp .env.example .env
+  # edit .env and add: OPENAI_API_KEY=sk-...
 
 ================================================================================
 OPTION 1: QUICK TEST (EASIEST - START HERE)
 ================================================================================
 
 Step 1: Open terminal and navigate:
-  cd /home/paul/code/widget_sim1/simple_inventory
+  cd simple-inventory
 
 Step 2: Run a single inventory check:
   ./venv/bin/python llm_inventory_agent.py --once
@@ -27,7 +50,7 @@ Cost: ~$0.03 (GPT-4) or ~$0.005 (GPT-3.5)
 OPTION 2: USE HELPER SCRIPTS
 ================================================================================
 
-Even easier! Just run:
+Even easier! From simple-inventory/ just run:
   ./run_once.sh
 
 Or for cheaper/faster AI:
@@ -39,17 +62,16 @@ OPTION 3: RUN WITH SIMULATION (ADVANCED)
 
 You need TWO terminal windows:
 
-Terminal 1 - Start Simulation:
-  cd /home/paul/code/widget_sim1/simple_inventory
+Terminal 1 - Start Simulation (from simple-inventory/):
   ./start_simulation.sh
 
-Terminal 2 - Start Agent:
-  cd /home/paul/code/widget_sim1/simple_inventory
+Terminal 2 - Start Agent (from simple-inventory/):
   ./start_agent.sh
 
 The agent will monitor the simulation and make decisions automatically!
+The simulation pauses 5 seconds between days so the agent has time to act.
 
-Duration: ~30-60 seconds for 30-day simulation
+Duration: ~30-60 seconds for 30-day simulation (with 5s delay)
 Cost: ~$0.10-0.50 depending on how many decisions
 
 ================================================================================
@@ -96,20 +118,20 @@ FILES YOU HAVE
 
 ./run_once.sh              - Run single check (easiest!)
 ./start_simulation.sh      - Start simulation (Terminal 1)
-./start_agent.sh          - Start agent (Terminal 2)
-./venv/bin/python         - Python with all dependencies
-llm_inventory_agent.py    - Main agent code
-test_agent.py             - Test suite
-COMMANDS.md               - Full command reference
-README.md                 - Complete documentation
-.env                      - Your API key (already configured)
+./start_agent.sh           - Start agent (Terminal 2)
+./venv/bin/python          - Python with all dependencies
+llm_inventory_agent.py     - Main agent code
+test_agent.py              - Test suite
+COMMANDS.md                - Full command reference
+README.md                  - Complete documentation
+.env                       - Your API key (add yours here)
 
 ================================================================================
 READY TO TRY?
 ================================================================================
 
 Run this now:
-  cd /home/paul/code/widget_sim1/simple_inventory && ./run_once.sh
+  cd simple-inventory && ./run_once.sh
 
 Or read full docs:
   cat README.md

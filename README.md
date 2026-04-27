@@ -28,9 +28,17 @@ The LLM makes intelligent decisions by considering:
 
 ### 1. Install Dependencies
 
+`simple-inventory` must be a subdirectory of `widget-sim`. Install dependencies in both:
+
 ```bash
-cd /home/paul/code/widget_sim1/simple_inventory
-pip install -r requirements.txt
+# From widget-sim/ (simulator)
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
+./venv/bin/python create_sim.py   # initialize databases
+
+# From simple-inventory/ (agent)
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
 ```
 
 ### 2. Configure OpenAI API Key
@@ -67,16 +75,20 @@ python llm_inventory_agent.py --once --date 2026-03-15
 
 Run the agent in sync with the manufacturing simulation:
 
-**Terminal 1** - Start simulation with restocking disabled:
+**Terminal 1** - Start simulation with restocking disabled (from `widget-sim/`):
 ```bash
-cd /home/paul/code/widget_sim1/widget-sim
-./venv/bin/python run_simulation.py 30 "2026-03-01" --disable restock --step
+./venv/bin/python run_simulation.py 30 "2026-03-01" --disable restock --delay 5
 ```
 
-**Terminal 2** - Start the LLM agent:
+**Terminal 2** - Start the LLM agent (from `simple-inventory/`):
 ```bash
-cd /home/paul/code/widget_sim1/simple_inventory
-python llm_inventory_agent.py --simulation
+./venv/bin/python llm_inventory_agent.py --simulation
+```
+
+Or use the helper scripts from `simple-inventory/`:
+```bash
+./start_simulation.sh   # Terminal 1
+./start_agent.sh        # Terminal 2
 ```
 
 The agent will:
@@ -307,8 +319,8 @@ Part of the Widget Manufacturing Simulation project.
 ## Support
 
 For questions or issues:
-1. Check the simulation's `AGENT_DEVELOPER_GUIDE.md`
-2. Review `AGENT_INTEGRATION.md` for patterns
+1. Check `../AGENT_DEVELOPER_GUIDE.md` in the simulator root
+2. Review `../AGENT_INTEGRATION.md` for patterns
 3. Check OpenAI API status and quotas
 4. Verify database file permissions
 

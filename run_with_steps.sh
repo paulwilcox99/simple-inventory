@@ -1,4 +1,7 @@
 #!/bin/bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WIDGET_SIM_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
 echo "🎮 STEP MODE: Manual Day-by-Day Control"
 echo "========================================"
 echo ""
@@ -10,5 +13,5 @@ echo "  4. Press 'q' to quit early"
 echo ""
 echo "Starting in 3 seconds..."
 sleep 3
-cd /home/paul/code/widget_sim1/widget-sim
+cd "$WIDGET_SIM_DIR"
 ./venv/bin/python run_simulation.py 7 "2026-04-15" --disable restock --step

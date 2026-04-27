@@ -2,11 +2,29 @@
 
 Get up and running with the AI-powered inventory agent in 5 minutes!
 
+## Prerequisites
+
+Both repositories must share a parent directory. Expected layout:
+```
+widget-sim/                  ← manufacturing simulator
+├── venv/
+├── run_simulation.py
+└── simple-inventory/        ← this agent (sub-directory of widget-sim)
+    └── venv/
+```
+
 ## Step 1: Install Dependencies
 
 ```bash
-cd /home/paul/code/widget_sim1/simple_inventory
-pip install -r requirements.txt
+# From the widget-sim root — install simulator dependencies
+cd widget-sim
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
+
+# Then install agent dependencies
+cd simple-inventory
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
 ```
 
 ## Step 2: Set Up OpenAI API Key
@@ -20,6 +38,7 @@ export OPENAI_API_KEY='sk-your-api-key-here'
 
 ### Option B: .env File
 ```bash
+cd simple-inventory
 cp .env.example .env
 # Edit .env and add your API key
 nano .env
@@ -27,12 +46,22 @@ nano .env
 
 Get your API key from: https://platform.openai.com/api-keys
 
-## Step 3: Test Your Setup
+## Step 3: Initialize the Simulation Databases
+
+Before running the agent, the simulator databases must exist:
+
+```bash
+cd widget-sim
+./venv/bin/python create_sim.py
+```
+
+## Step 4: Test Your Setup
 
 Run the test suite to verify everything works:
 
 ```bash
-python test_agent.py
+cd simple-inventory
+./venv/bin/python test_agent.py
 ```
 
 This will:
@@ -41,12 +70,13 @@ This will:
 - ✅ Test LLM connection
 - ✅ Run a dry-run analysis (optional)
 
-## Step 4: Run Your First Check
+## Step 5: Run Your First Check
 
 ### Manual Mode (One-time check)
 
 ```bash
-python llm_inventory_agent.py --once
+cd simple-inventory
+./venv/bin/python llm_inventory_agent.py --once
 ```
 
 This will:
@@ -86,20 +116,20 @@ Example output:
 ✅ Restock completed successfully
 ```
 
-## Step 5: Run with Simulation (Advanced)
+## Step 6: Run with Simulation (Advanced)
 
 Run the agent synchronized with the manufacturing simulation.
 
-### Terminal 1: Start Simulation
+### Terminal 1: Start Simulation (from widget-sim/)
 ```bash
-cd /home/paul/code/widget_sim1/widget-sim
-./venv/bin/python run_simulation.py 30 "2026-03-01" --disable restock --step
+cd widget-sim
+./venv/bin/python run_simulation.py 30 "2026-03-01" --disable restock --delay 5
 ```
 
-### Terminal 2: Start Agent
+### Terminal 2: Start Agent (from simple-inventory/)
 ```bash
-cd /home/paul/code/widget_sim1/simple_inventory
-python llm_inventory_agent.py --simulation
+cd widget-sim/simple-inventory
+./venv/bin/python llm_inventory_agent.py --simulation
 ```
 
 The agent will:
@@ -109,20 +139,29 @@ The agent will:
 - Auto-execute restocking
 - Exit when simulation completes
 
+### Or use the helper scripts (from simple-inventory/)
+```bash
+# Terminal 1:
+./start_simulation.sh
+
+# Terminal 2:
+./start_agent.sh
+```
+
 ## Common Commands
 
 ```bash
 # Run single check with specific date
-python llm_inventory_agent.py --once --date 2026-03-15
+./venv/bin/python llm_inventory_agent.py --once --date 2026-03-15
 
 # Use cheaper/faster model
-python llm_inventory_agent.py --once --model gpt-3.5-turbo
+./venv/bin/python llm_inventory_agent.py --once --model gpt-3.5-turbo
 
 # Run with simulation using specific model
-python llm_inventory_agent.py --simulation --model gpt-4-turbo
+./venv/bin/python llm_inventory_agent.py --simulation --model gpt-4-turbo
 
 # Test without running
-python test_agent.py
+./venv/bin/python test_agent.py
 ```
 
 ## Troubleshooting
@@ -132,8 +171,8 @@ python test_agent.py
 - Or create `.env` file with your key
 
 ### "Database not found"
-- Ensure you're running from the correct directory
-- Check that widget-sim databases exist
+- Run `create_sim.py` from the widget-sim directory first
+- Ensure `simple-inventory` is a subdirectory of `widget-sim`
 
 ### "Authentication error"
 - Verify API key is correct
@@ -188,8 +227,7 @@ For a 30-day simulation (30 checks):
 ## Support
 
 - Read `README.md` for detailed documentation
-- Check `/home/paul/code/widget_sim1/widget-sim/AGENT_DEVELOPER_GUIDE.md`
-- Review simulation docs for database schemas
+- Check `../AGENT_DEVELOPER_GUIDE.md` in the simulator for database schemas
 
 ## Example Session
 
@@ -197,22 +235,25 @@ For a 30-day simulation (30 checks):
 # 1. Set up environment
 export OPENAI_API_KEY='sk-proj-...'
 
-# 2. Test everything
-python test_agent.py
+# 2. Initialize databases (from widget-sim/)
+cd widget-sim
+./venv/bin/python create_sim.py
 
-# 3. Run a single check
-python llm_inventory_agent.py --once
+# 3. Test everything (from simple-inventory/)
+cd simple-inventory
+./venv/bin/python test_agent.py
 
-# 4. Run with simulation
-# Terminal 1:
-cd ../widget-sim
-./venv/bin/python run_simulation.py 7 --disable restock --step
+# 4. Run a single check
+./venv/bin/python llm_inventory_agent.py --once
 
-# Terminal 2:
-cd /home/paul/code/widget_sim1/simple_inventory
-python llm_inventory_agent.py --simulation
+# 5. Run with simulation
+# Terminal 1 (from simple-inventory/):
+./start_simulation.sh
 
-# 5. Watch it work!
+# Terminal 2 (from simple-inventory/):
+./start_agent.sh
+
+# 6. Watch it work!
 ```
 
 That's it! You now have an AI agent managing your inventory! 🤖📦

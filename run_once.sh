@@ -1,5 +1,7 @@
 #!/bin/bash
-cd /home/paul/code/widget_sim1/simple_inventory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
 echo "🚀 Running LLM Inventory Agent - Single Check"
 echo "=============================================="
 echo ""
