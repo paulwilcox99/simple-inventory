@@ -27,7 +27,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Add widget-sim to path for imports
-WIDGET_SIM_DIR = Path(__file__).parent.parent / "widget-sim"
+WIDGET_SIM_DIR = Path(__file__).parent.parent
 sys.path.insert(0, str(WIDGET_SIM_DIR))
 
 # Database locations
